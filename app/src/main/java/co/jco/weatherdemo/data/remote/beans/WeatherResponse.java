@@ -1,8 +1,9 @@
 package co.jco.weatherdemo.data.remote.beans;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class WeatherResponse {
 

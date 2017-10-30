@@ -18,7 +18,7 @@ import co.jco.weatherdemo.R;
 import co.jco.weatherdemo.data.WeatherCity;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Fragment displaying a list of cities, with their respective weather
  */
 public class WeatherFragment extends Fragment implements WeatherContract.View {
 
@@ -51,6 +51,12 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         setupCityList();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
     }
 
     private void setupCityList() {

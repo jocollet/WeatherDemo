@@ -10,13 +10,17 @@ import co.jco.weatherdemo.data.WeatherCity;
 import co.jco.weatherdemo.data.WeatherDataSource;
 import co.jco.weatherdemo.data.WeatherForecast;
 
+/**
+ * WeatherDataSource implementation returning mocked data
+ * Useful to start development and implement unit tests
+ */
 public class WeatherMockDataSource implements WeatherDataSource {
 
     private final Random mRandom = new Random();
     private final List<WeatherCity> mCities = new ArrayList<>();
 
     private static final String[] PLACEHOLDERS = {"Lyon", "Paris", "Berlin", "Toulouse", "Madrid", "Lausanne",
-                                      "Berne", "Coutances", "Granville", "Chausey", "Luosto"};
+            "Berne", "Coutances", "Granville", "Chausey", "Luosto"};
 
     @Override
     public void getCities(WeatherCallback<List<WeatherCity>> callback) {
@@ -36,7 +40,7 @@ public class WeatherMockDataSource implements WeatherDataSource {
     @Override
     public void removeCity(String cityName, WeatherCallback<List<WeatherCity>> callback) {
         WeatherCity cityToRemove = null;
-        for(WeatherCity city : mCities) {
+        for (WeatherCity city : mCities) {
             if (city.getCityName().equals(cityName)) {
                 cityToRemove = city;
                 break;

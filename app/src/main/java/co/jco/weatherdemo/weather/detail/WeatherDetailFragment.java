@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 
 import co.jco.weatherdemo.R;
 
-
+/**
+ * Weather detail of a city
+ * At the moment it is not reachable
+ */
 public class WeatherDetailFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

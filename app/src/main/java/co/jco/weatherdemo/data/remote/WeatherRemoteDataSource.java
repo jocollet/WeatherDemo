@@ -14,10 +14,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * WeatherDataSource remote implementation, it uses OpenWeatherMap endpoints via Retrofit
+ * TODO : Add a valid api key
+ */
 public class WeatherRemoteDataSource implements WeatherDataSource {
 
+    // OpenWeatherMap Api key, mandatory
     private static final String API_KEY = "";
 
+    // Retrofit service, used to call endpoints
     private final RetrofitOpenWeatherMapInterface mWeatherService;
 
     public WeatherRemoteDataSource() {
@@ -30,7 +36,7 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
 
     @Override
     public void getCities(WeatherCallback<List<WeatherCity>> callback) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Get cities from the local datasource !");
     }
 
     @Override
@@ -38,8 +44,8 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
         mWeatherService.get(API_KEY, city).enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                // TODO this responses comes back to repository, is stored into local datasource, then
-                // the updated list is sent using the callback
+                // TODO this response comes back to repository and is stored into local datasource
+                // TODO repository needs to implement a caching/ forcerefresh strategy
             }
 
             @Override
@@ -51,12 +57,12 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
 
     @Override
     public void getForecast(String city, WeatherCallback<WeatherForecast> callback) {
-
+        throw new UnsupportedOperationException("Implement me !");
     }
 
     @Override
     public void removeCity(String city, WeatherCallback<List<WeatherCity>> callback) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Call local datasource instead !");
     }
 
 }

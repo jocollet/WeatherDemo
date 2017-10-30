@@ -6,6 +6,9 @@ import android.support.v7.widget.Toolbar;
 
 import co.jco.weatherdemo.R;
 
+/**
+ * "Home" Activity, its fragment displays the main view of the application
+ */
 public class WeatherActivity extends AppCompatActivity {
 
     @Override

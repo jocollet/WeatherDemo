@@ -1,17 +1,38 @@
 package co.jco.weatherdemo.data;
 
-
+/**
+ * Data class representing the current weather of a city
+ */
 public class WeatherCity {
 
     private String cityName;
+    /**
+     * defined in °C by convention
+     */
     private float temperature;
+    /**
+     * weather description
+     */
     private String description;
-    //http://openweathermap.org/weather-conditions
+    /**
+     * weather code, see http://openweathermap.org/weather-conditions
+     */
     private int weatherCode;
 
+    /**
+     * Instanciates a new #WeatherCity
+     */
     public WeatherCity() {
     }
 
+    /**
+     * Instanciates a new #WeatherCity
+     *
+     * @param cityName    city name
+     * @param temperature current temperature in °C
+     * @param description current weather description
+     * @param weatherCode current weather code, see http://openweathermap.org/weather-conditions
+     */
     public WeatherCity(String cityName, float temperature, String description, int weatherCode) {
         this.cityName = cityName;
         this.temperature = temperature;

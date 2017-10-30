@@ -1,5 +1,6 @@
 package co.jco.weatherdemo.weather.home;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,9 @@ import java.util.List;
 import co.jco.weatherdemo.R;
 import co.jco.weatherdemo.data.WeatherCity;
 
-
+/**
+ * Cities adapter, receives a list of cities and notifies the attached RecyclerView
+ */
 public class WeatherCityAdapter extends RecyclerView.Adapter<WeatherCityViewHolder> {
 
     private final List<WeatherCity> mCities = new ArrayList<>();
@@ -33,7 +36,11 @@ public class WeatherCityAdapter extends RecyclerView.Adapter<WeatherCityViewHold
         return mCities.size();
     }
 
-    public void setCities(Collection<WeatherCity> cities) {
+    /**
+     * Replaces the current cities by those of the given collection
+     * @param cities a collection of cities
+     */
+    public void setCities(@NonNull Collection<WeatherCity> cities) {
         mCities.clear();
         mCities.addAll(cities);
         notifyDataSetChanged();
