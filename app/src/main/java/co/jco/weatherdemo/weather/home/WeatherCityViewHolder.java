@@ -1,5 +1,7 @@
 package co.jco.weatherdemo.weather.home;
 
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -26,11 +28,18 @@ public class WeatherCityViewHolder extends RecyclerView.ViewHolder {
         mSkyImage = itemView.findViewById(R.id.iv_sky);
     }
 
+    /**
+     * Binds a city weather to a viewholder
+     * @param weatherCity the city weather to bind
+     */
     public void bind(WeatherCity weatherCity) {
         mCityName.setText(weatherCity.getCityName());
         mTemperature.setText(formatTemperature(weatherCity));
         mDescription.setText(weatherCity.getDescription());
-        mSkyImage.setImageResource(R.drawable.ic_wb_sunny_white_48dp);
+        @DrawableRes int skyResource = (weatherCity.getWeatherCode() < 500)
+                ? R.drawable.ic_cloud_white_48dp
+                : R.drawable.ic_wb_sunny_white_48dp;
+        mSkyImage.setImageResource(skyResource);
     }
 
     private String formatTemperature(WeatherCity weatherCity) {
