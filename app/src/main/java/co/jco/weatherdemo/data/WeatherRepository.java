@@ -24,7 +24,7 @@ public class WeatherRepository implements WeatherDataSource {
     public WeatherRepository() {
         mLocalDataSource = new WeatherLocalDataSource();
         mRemoteDataSource = new WeatherRemoteDataSource();
-        mFakeDataSource = new WeatherMockDataSource();
+        mFakeDataSource = new WeatherMockDataSource(true);
     }
 
     @Override

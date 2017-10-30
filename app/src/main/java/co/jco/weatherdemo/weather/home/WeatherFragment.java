@@ -112,7 +112,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     @Override
     public void showError() {
         Snackbar.make(getActivity().findViewById(android.R.id.content),
-                "Oh snap !",
+                R.string.weather_error_occurred,
                 Snackbar.LENGTH_LONG)
                 .show();
     }

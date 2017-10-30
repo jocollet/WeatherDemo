@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">WeatherDemo</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_main2">WeatherActivity</string>
+    <string name="weather_activity_title">WeatherActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="weather_error_occurred">Oh snap ! An error occurred, please retry.</string>
+    <string name="action_settings">settings</string>
 </resources>
