@@ -60,9 +60,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         mItemTouchHelper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(0,
                         ItemTouchHelper.LEFT
-                                | ItemTouchHelper.RIGHT
-                                | ItemTouchHelper.DOWN
-                                | ItemTouchHelper.UP) {
+                                | ItemTouchHelper.RIGHT) {
                     @Override
                     public boolean onMove(RecyclerView recyclerView,
                                           RecyclerView.ViewHolder viewHolder,
