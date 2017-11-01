@@ -2,9 +2,10 @@ package co.jco.weatherdemo.weather.home;
 
 import java.util.List;
 
+import co.jco.weatherdemo.data.WeatherApi;
 import co.jco.weatherdemo.data.WeatherCallback;
 import co.jco.weatherdemo.data.WeatherCity;
-import co.jco.weatherdemo.data.WeatherRepository;
+import co.jco.weatherdemo.data.WeatherDataSource;
 
 /**
  * WeatherPresenter implementation, it orchestrates View and Model interactions.
@@ -18,11 +19,11 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
     /**
      * The repository from which it manipulates data
      */
-    private WeatherRepository mRepository;
+    private WeatherDataSource mDataSource;
 
     public WeatherPresenterImpl(WeatherContract.View view) {
         mView = view;
-        mRepository = new WeatherRepository();
+        mDataSource = WeatherApi.getInstance().getDataSource();
         mView.setPresenter(this);
     }
 
@@ -32,7 +33,7 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
      */
     @Override
     public void start() {
-        mRepository.getCities(new WeatherCallback<List<WeatherCity>>() {
+        mDataSource.getCities(new WeatherCallback<List<WeatherCity>>() {
             @Override
             public void onResponse(List<WeatherCity> cities, boolean success) {
                 if (mView.isActive()) {
@@ -55,7 +56,7 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
 
     @Override
     public void addCity(String city) {
-        mRepository.addCity(city, new WeatherCallback<List<WeatherCity>>() {
+        mDataSource.addCity(city, new WeatherCallback<List<WeatherCity>>() {
             @Override
             public void onResponse(List<WeatherCity> cities, boolean success) {
                 if (mView.isActive()) {
@@ -78,7 +79,7 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
 
     @Override
     public void removeCity(String city) {
-        mRepository.removeCity(city, new WeatherCallback<List<WeatherCity>>() {
+        mDataSource.removeCity(city, new WeatherCallback<List<WeatherCity>>() {
             @Override
             public void onResponse(List<WeatherCity> weatherCities, boolean success) {
                 if (mView.isActive()) {

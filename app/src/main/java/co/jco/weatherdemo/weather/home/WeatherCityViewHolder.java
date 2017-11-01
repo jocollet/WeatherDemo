@@ -1,7 +1,6 @@
 package co.jco.weatherdemo.weather.home;
 
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +29,7 @@ public class WeatherCityViewHolder extends RecyclerView.ViewHolder {
 
     /**
      * Binds a city weather to a viewholder
+     *
      * @param weatherCity the city weather to bind
      */
     public void bind(WeatherCity weatherCity) {

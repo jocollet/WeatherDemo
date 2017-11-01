@@ -11,7 +11,7 @@ import co.jco.weatherdemo.data.WeatherForecast;
  * Local WeatherDataSource, facade to Realm database
  * Unused at the moment
  */
-public class WeatherLocalDataSource implements WeatherDataSource{
+public class WeatherLocalDataSource implements WeatherDataSource {
     @Override
     public void getCities(WeatherCallback<List<WeatherCity>> callback) {
         throw new UnsupportedOperationException("Implement me !");

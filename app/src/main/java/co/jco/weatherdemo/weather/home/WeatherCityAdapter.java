@@ -38,6 +38,7 @@ public class WeatherCityAdapter extends RecyclerView.Adapter<WeatherCityViewHold
 
     /**
      * Replaces the current cities by those of the given collection
+     *
      * @param cities a collection of cities
      */
     public void setCities(@NonNull Collection<WeatherCity> cities) {
