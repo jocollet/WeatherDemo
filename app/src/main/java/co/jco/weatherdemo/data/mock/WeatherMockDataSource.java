@@ -41,17 +41,17 @@ public class WeatherMockDataSource implements WeatherDataSource {
     }
 
     @Override
-    public void addCity(String city, WeatherCallback<List<WeatherCity>> callback) {
+    public void addCity(String cityName, WeatherCallback<List<WeatherCity>> callback) {
         // Generate a random number between 0 and 20
-        int willSucceed = mRandom.nextInt(20);
+        int roll = mRandom.nextInt(20);
 
-        // respond an error if the number is <3, a not success response if < 7
-        if (mCanReturnErrors && willSucceed < 3) {
+        // respond an error if the number is <2, a not success response if < 4
+        if (mCanReturnErrors && roll < 2) {
             callback.onFailure(new Throwable());
-        } else if (mCanReturnErrors && willSucceed >= 4 && willSucceed < 7) {
+        } else if (mCanReturnErrors && roll >= 2 && roll < 4) {
             callback.onResponse(Collections.<WeatherCity>emptyList(), false);
         } else {
-            mCities.add(generateRandomWeather());
+            mCities.add(generateRandomWeather(cityName));
             callback.onResponse(mCities, true);
         }
     }
@@ -73,9 +73,13 @@ public class WeatherMockDataSource implements WeatherDataSource {
         callback.onResponse(mCities, true);
     }
 
-    private WeatherCity generateRandomWeather() {
+    private WeatherCity generateRandomWeather(String cityName) {
         WeatherCity weatherCity = new WeatherCity();
-        weatherCity.setCityName(PLACEHOLDERS[mRandom.nextInt(PLACEHOLDERS.length - 1)]);
+        if (cityName != null && !cityName.isEmpty()) {
+            weatherCity.setCityName(cityName);
+        } else {
+            weatherCity.setCityName(PLACEHOLDERS[mRandom.nextInt(PLACEHOLDERS.length - 1)]);
+        }
         weatherCity.setDescription("very accurate description");
         weatherCity.setTemperature(mRandom.nextFloat() * 40f);
         weatherCity.setWeatherCode(mRandom.nextInt(999));

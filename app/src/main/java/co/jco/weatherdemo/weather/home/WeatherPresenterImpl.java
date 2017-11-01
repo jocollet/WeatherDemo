@@ -55,8 +55,8 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
     }
 
     @Override
-    public void addCity(String city) {
-        mDataSource.addCity(city, new WeatherCallback<List<WeatherCity>>() {
+    public void addCity(String cityName) {
+        mDataSource.addCity(cityName, new WeatherCallback<List<WeatherCity>>() {
             @Override
             public void onResponse(List<WeatherCity> cities, boolean success) {
                 if (mView.isActive()) {
