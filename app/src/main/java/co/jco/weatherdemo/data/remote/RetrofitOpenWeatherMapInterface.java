@@ -18,5 +18,5 @@ public interface RetrofitOpenWeatherMapInterface {
      * @return a Call representing the query
      */
     @GET("weather")
-    Call<WeatherResponse> get(@Query("APPID") String apiKey, @Query("q") String city);
+    Call<WeatherResponse> get(@Query("APPID") String apiKey, @Query("q") String city, @Query("units") String units);
 }
