@@ -9,7 +9,7 @@ public class WeatherCity {
     /**
      * defined in °C by convention
      */
-    private float temperature;
+    private double temperature;
     /**
      * weather description
      */
@@ -48,11 +48,11 @@ public class WeatherCity {
         this.cityName = cityName;
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
