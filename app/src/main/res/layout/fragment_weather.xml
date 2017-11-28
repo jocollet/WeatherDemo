@@ -33,7 +33,10 @@
         android:paddingTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical">
+        android:paddingBottom="72dp"
+        android:scrollbars="vertical"
+        android:clipToPadding="false"
+        tools:listitem="@layout/viewholder_city">
 
     </android.support.v7.widget.RecyclerView>
 </android.support.design.widget.CoordinatorLayout>
