@@ -19,14 +19,7 @@ public class WeatherRepository implements WeatherDataSource {
     private final WeatherMockDataSource mFakeDataSource;
 
     private boolean withRemote = false;
-
-    public boolean isWithRemote() {
-        return withRemote;
-    }
-
-    public void withRemote(boolean remoteEnabled) {
-        this.withRemote = remoteEnabled;
-    }
+    private boolean withLocal = false;
 
     /**
      * Instanciates a new #WeatherRepository, you should only have one instance
@@ -39,7 +32,11 @@ public class WeatherRepository implements WeatherDataSource {
 
     @Override
     public void getCities(WeatherCallback<List<WeatherCity>> callback) {
-        mLocalDataSource.getCities(callback);
+        if (withLocal) {
+            mLocalDataSource.getCities(callback);
+        } else {
+            mFakeDataSource.getCities(callback);
+        }
     }
 
     @Override
@@ -49,7 +46,11 @@ public class WeatherRepository implements WeatherDataSource {
             @Override
             public void onResponse(WeatherCity weatherCity, boolean success) {
                 if (success) {
-                    mLocalDataSource.saveCity(weatherCity, callback);
+                    if (withLocal) {
+                        mLocalDataSource.saveCity(weatherCity, callback);
+                    } else {
+                        mFakeDataSource.saveCity(weatherCity, callback);
+                    }
                 }
             }
 
@@ -78,7 +79,11 @@ public class WeatherRepository implements WeatherDataSource {
 
     @Override
     public void removeCity(String city, WeatherCallback<WeatherCity> callback) {
-        mLocalDataSource.removeCity(city, callback);
+        if (withLocal) {
+            mLocalDataSource.removeCity(city, callback);
+        } else {
+            mFakeDataSource.removeCity(city, callback);
+        }
     }
 
 }

@@ -56,7 +56,21 @@ public class WeatherMockDataSource implements WeatherDataSource {
 
     @Override
     public void saveCity(WeatherCity city, WeatherCallback<WeatherCity> callback) {
-        mCities.add(city);
+        boolean newCity = true;
+        for (WeatherCity c : mCities) {
+            // update if a city with the same name already exists
+            if (c.getCityName().equals(city.getCityName())) {
+                c.setWeatherCode(city.getWeatherCode());
+                c.setDescription(city.getDescription());
+                c.setTemperature(city.getTemperature());
+                newCity = false;
+                break;
+            }
+        }
+        if (newCity) {
+            mCities.add(city);
+        }
+        callback.onResponse(city, true);
     }
 
     @Override
