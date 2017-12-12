@@ -23,6 +23,8 @@ import java.util.List;
 
 import co.jco.weatherdemo.R;
 import co.jco.weatherdemo.data.WeatherCity;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 /**
  * Fragment displaying a list of cities, with their respective weather
@@ -41,6 +43,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -104,7 +107,16 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     private void setupCityList() {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCityList.setLayoutManager(mLayoutManager);
-        mCityAdapter = new WeatherCityAdapter();
+        mCityAdapter = new WeatherCityAdapter(new Function1<WeatherCity, Unit>() {
+            @Override
+            public Unit invoke(WeatherCity weatherCity) {
+                Snackbar.make(getActivity().findViewById(android.R.id.content),
+                        "city clicked : " + weatherCity.getCityName(),
+                        Snackbar.LENGTH_LONG)
+                        .show();
+                return null;
+            }
+        });
         mItemTouchHelper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(0,
                         ItemTouchHelper.LEFT
@@ -119,7 +131,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                         // remove swiped item from the list
-                        mPresenter.removeCity(((WeatherCityViewHolder) viewHolder).mCityName.getText().toString());
+                        mPresenter.removeCity(((WeatherCityViewHolder) viewHolder).getMCityName().getText().toString());
                     }
                 });
 
