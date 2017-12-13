@@ -1,7 +1,6 @@
 package co.jco.weatherdemo.weather.home;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -23,8 +22,11 @@ import java.util.List;
 
 import co.jco.weatherdemo.R;
 import co.jco.weatherdemo.data.WeatherCity;
+import co.jco.weatherdemo.weather.detail.WeatherDetailFragment;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
+
+import static co.jco.weatherdemo.UtilsKt.replaceFragment;
 
 /**
  * Fragment displaying a list of cities, with their respective weather
@@ -40,10 +42,8 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     private MenuItem mMenuSearchItem;
     private SearchView mSearchView;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public static WeatherFragment newInstance() {
+        return new WeatherFragment();
     }
 
     @Override
@@ -110,10 +110,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         mCityAdapter = new WeatherCityAdapter(new Function1<WeatherCity, Unit>() {
             @Override
             public Unit invoke(WeatherCity weatherCity) {
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                        "city clicked : " + weatherCity.getCityName(),
-                        Snackbar.LENGTH_LONG)
-                        .show();
+                mPresenter.onCityClick(weatherCity);
                 return null;
             }
         });
@@ -178,6 +175,11 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         if (mMenuSearchItem != null) {
             mMenuSearchItem.collapseActionView();
         }
+    }
+
+    @Override
+    public void showCityDetail(WeatherCity weatherCity) {
+        replaceFragment((AppCompatActivity) getActivity(), WeatherDetailFragment.newInstance(weatherCity.getCityName()), R.id.fl_fragment_container);
     }
 
 }

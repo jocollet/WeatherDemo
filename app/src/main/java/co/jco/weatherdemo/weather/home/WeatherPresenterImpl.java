@@ -92,4 +92,11 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
         });
     }
 
+    @Override
+    public void onCityClick(WeatherCity weatherCity) {
+        if (mView.isActive()) {
+            mView.showCityDetail(weatherCity);
+        }
+    }
+
 }
