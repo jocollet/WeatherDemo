@@ -22,7 +22,7 @@ class WeatherCityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
      *
      * @param weatherCity the city weather to bind
      */
-    fun bind(weatherCity: WeatherCity, listener: (WeatherCity) -> Unit) {
+    fun bind(weatherCity: WeatherCity) {
         mCityName.text = weatherCity.cityName
         mTemperature.text = formatTemperature(weatherCity)
         mDescription.text = weatherCity.description
@@ -31,7 +31,7 @@ class WeatherCityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
         else
             R.drawable.ic_wb_sunny_white_48dp
         mSkyImage.setImageResource(skyResource)
-        itemView.setOnClickListener({ listener(weatherCity) })
+        //TODO WS3 itemView.setOnClickListener(???) register your listener here
     }
 
     private fun formatTemperature(weatherCity: WeatherCity): String {

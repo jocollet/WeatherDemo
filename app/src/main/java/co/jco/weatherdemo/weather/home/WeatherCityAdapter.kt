@@ -2,19 +2,16 @@ package co.jco.weatherdemo.weather.home
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-
-import java.util.ArrayList
-
 import co.jco.weatherdemo.R
 import co.jco.weatherdemo.data.WeatherCity
+import java.util.*
 
 /**
  * Cities adapter, receives a list of cities and notifies the attached RecyclerView
  */
-class WeatherCityAdapter(val listener : (WeatherCity) -> Unit) : RecyclerView.Adapter<WeatherCityViewHolder>() {
-
+class WeatherCityAdapter : RecyclerView.Adapter<WeatherCityViewHolder>() {
+    //TODO WS3 Add a listener field to this class ! listener signature : (WeatherCity) -> Unit
     private val mCities = ArrayList<WeatherCity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherCityViewHolder {
@@ -23,7 +20,7 @@ class WeatherCityAdapter(val listener : (WeatherCity) -> Unit) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: WeatherCityViewHolder, position: Int) {
-        holder.bind(mCities[position], listener)
+        holder.bind(mCities[position])
     }
 
     override fun getItemCount(): Int {

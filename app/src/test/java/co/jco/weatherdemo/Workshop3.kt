@@ -134,4 +134,22 @@ class Workshop3 {
 
     // endregion annotations
 
+    // region range check
+
+    /**
+     * listener
+     */
+    fun registerUserListener(listener : (User) -> Unit) {
+        listener(User("Peter", "Paul", "Jack", 77))
+    }
+
+    @Test
+    fun testReceiver() {
+        val listener : (User) -> Unit = fun (user : User) : Unit = println(user.age)
+        registerUserListener(listener)
+        registerUserListener { user -> println(user.age) }
+    }
+
+    // endregion range check
+
 }

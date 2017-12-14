@@ -18,7 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * WeatherDataSource remote implementation, it uses OpenWeatherMap endpoints via Retrofit
- * TODO : Add a valid api key
  */
 public class WeatherRemoteDataSource implements WeatherDataSource {
 
@@ -46,9 +45,6 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
         mWeatherService.get(API_KEY, city, "metric").enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                // TODO this response comes back to repository and is stored into local datasource
-                // TODO repository needs to implement a caching/ force refresh strategy
-
                 WeatherResponse weatherResponse = response.body();
 
                 if (response.isSuccessful() && weatherResponse != null) {

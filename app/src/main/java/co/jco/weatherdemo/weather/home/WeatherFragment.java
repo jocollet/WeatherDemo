@@ -23,8 +23,6 @@ import java.util.List;
 import co.jco.weatherdemo.R;
 import co.jco.weatherdemo.data.WeatherCity;
 import co.jco.weatherdemo.weather.detail.WeatherDetailFragment;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
 import static co.jco.weatherdemo.UtilsKt.replaceFragment;
 
@@ -107,13 +105,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     private void setupCityList() {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCityList.setLayoutManager(mLayoutManager);
-        mCityAdapter = new WeatherCityAdapter(new Function1<WeatherCity, Unit>() {
-            @Override
-            public Unit invoke(WeatherCity weatherCity) {
-                mPresenter.onCityClick(weatherCity);
-                return null;
-            }
-        });
+        mCityAdapter = new WeatherCityAdapter(); //TODO WS3 Add your listener here using Function1<WeatherCity, Unit>
         mItemTouchHelper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(0,
                         ItemTouchHelper.LEFT
@@ -179,7 +171,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     @Override
     public void showCityDetail(WeatherCity weatherCity) {
-        replaceFragment((AppCompatActivity) getActivity(), WeatherDetailFragment.newInstance(weatherCity.getCityName()), R.id.fl_fragment_container);
+        replaceFragment((AppCompatActivity) getActivity(), R.id.fl_fragment_container, WeatherDetailFragment.Companion.newInstance(weatherCity.getCityName()));
     }
 
 }
