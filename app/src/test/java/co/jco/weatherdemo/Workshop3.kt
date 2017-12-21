@@ -2,8 +2,7 @@ package co.jco.weatherdemo
 
 import co.jco.weatherdemo.JavaStringUtils.returnStringNonNull
 import co.jco.weatherdemo.JavaStringUtils.returnStringNullable
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
+import junit.framework.Assert.*
 import org.junit.Assert
 import org.junit.Test
 import java.util.*
@@ -88,7 +87,7 @@ class Workshop3 {
      */
     @Test
     fun testRange() {
-        assertTrue (10.5 in 0..10)
+        assertTrue(10.5 in 0..10)
     }
 
     // endregion range check
@@ -128,10 +127,21 @@ class Workshop3 {
 
     @Test
     fun testNullable() {
-        val nullable : String? = returnStringNullable()
-        val nonNull : String = returnStringNonNull()
+        val nullable: String? = returnStringNullable()
+        val nonNull: String = returnStringNonNull()
     }
+}
 
     // endregion annotations
 
-}
+
+//    @Test
+//    fun amIEvil() {
+//        val `true` = false
+//        assertFalse(`true`)
+//        val iLied : Double  = 3 // ok
+//        val iReallyLied : Double = 3.5 // does not compile
+//        assertTrue(iLied is Double) // always true
+//    }
+//}
+//typealias Double = Int
