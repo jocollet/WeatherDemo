@@ -36,6 +36,9 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
         getCities();
     }
 
+    /**
+     * Get all stored cities
+     */
     private void getCities() {
         mDataSource.getCities(new WeatherCallback<List<WeatherCity>>() {
             @Override
