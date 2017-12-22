@@ -21,9 +21,9 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
      */
     private WeatherDataSource mDataSource;
 
-    public WeatherPresenterImpl(WeatherContract.View view) {
+    public WeatherPresenterImpl(WeatherContract.View view, WeatherApi weatherApi) {
         mView = view;
-        mDataSource = WeatherApi.getInstance().getDataSource();
+        mDataSource = weatherApi.getDataSource();
         mView.setPresenter(this);
     }
 

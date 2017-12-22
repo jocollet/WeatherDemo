@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import co.jco.weatherdemo.R;
+import co.jco.weatherdemo.data.WeatherApi;
 import co.jco.weatherdemo.data.WeatherCity;
 import co.jco.weatherdemo.weather.detail.WeatherDetailFragment;
 import kotlin.Unit;
@@ -53,7 +54,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
 
         setHasOptionsMenu(true);
 
-        mPresenter = new WeatherPresenterImpl(this);
+        mPresenter = new WeatherPresenterImpl(this, WeatherApi.getInstance());
 
         mFab = view.findViewById(R.id.fab);
         mCityList = view.findViewById(R.id.rv_weather_city_list);
