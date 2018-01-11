@@ -1,10 +1,16 @@
 package co.jco.weatherdemo
 
-import android.app.Application
+import co.jco.weatherdemo.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
-class WeatherApplication : Application() {
+
+class WeatherApplication : DaggerApplication() {
+    override fun applicationInjector(): AndroidInjector<out WeatherApplication> {
+        return DaggerAppComponent.builder().create(this)
+    }
 
     override fun onCreate() {
         super.onCreate()

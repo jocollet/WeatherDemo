@@ -20,10 +20,13 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import co.jco.weatherdemo.R;
 import co.jco.weatherdemo.data.WeatherApi;
 import co.jco.weatherdemo.data.WeatherCity;
 import co.jco.weatherdemo.weather.detail.WeatherDetailFragment;
+import dagger.android.support.DaggerFragment;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -32,12 +35,13 @@ import static co.jco.weatherdemo.UtilsKt.replaceFragment;
 /**
  * Fragment displaying a list of cities, with their respective weather
  */
-public class WeatherFragment extends Fragment implements WeatherContract.View {
+public class WeatherFragment extends DaggerFragment implements WeatherContract.View {
 
     private RecyclerView mCityList;
     private LinearLayoutManager mLayoutManager;
     private WeatherCityAdapter mCityAdapter;
-    private WeatherContract.Presenter mPresenter;
+    @Inject
+    protected WeatherContract.Presenter mPresenter;
     private FloatingActionButton mFab;
     private ItemTouchHelper mItemTouchHelper;
     private MenuItem mMenuSearchItem;
@@ -52,9 +56,8 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_weather, container, false);
 
+        mPresenter.setView(this);
         setHasOptionsMenu(true);
-
-        mPresenter = new WeatherPresenterImpl(this, WeatherApi.getInstance());
 
         mFab = view.findViewById(R.id.fab);
         mCityList = view.findViewById(R.id.rv_weather_city_list);

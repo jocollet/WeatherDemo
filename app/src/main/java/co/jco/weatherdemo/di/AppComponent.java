@@ -1,25 +1,21 @@
 package co.jco.weatherdemo.di;
 
 
-import android.app.Application;
+import javax.inject.Singleton;
 
 import co.jco.weatherdemo.WeatherApplication;
-import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
+import dagger.android.AndroidInjector;
+import dagger.android.support.AndroidSupportInjectionModule;
 
+@Singleton
 @Component(modules = {
+        AndroidSupportInjectionModule.class,
         AndroidInjectionModule.class,
-        AppModule.class,
-        ActivityBuilder.class})
-public interface AppComponent {
-
+        AppModule.class})
+public interface AppComponent extends AndroidInjector<WeatherApplication> {
     @Component.Builder
-    interface Builder {
-        @BindsInstance
-        Builder application(Application application);
-        AppComponent build();
+    abstract class Builder extends AndroidInjector.Builder<WeatherApplication> {
     }
-
-    void inject(WeatherApplication app);
 }

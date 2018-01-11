@@ -1,15 +1,18 @@
 package co.jco.weatherdemo.weather.home;
 
-import co.jco.weatherdemo.data.WeatherApi;
 import dagger.Module;
 import dagger.Provides;
+import dagger.android.ContributesAndroidInjector;
 
 @Module
-public class WeatherActivityModule {
+public abstract class WeatherActivityModule {
 
     @Provides
-    WeatherContract.Presenter provideWeatherPresenter(WeatherContract.View view, WeatherApi weatherApi) {
-        return new WeatherPresenterImpl(view, weatherApi);
+    static WeatherFragment provideWeatherFragment() {
+        return WeatherFragment.newInstance();
     }
+
+    @ContributesAndroidInjector(modules = WeatherFragmentModule.class)
+    abstract WeatherFragment weatherFragmentInjector();
 
 }
