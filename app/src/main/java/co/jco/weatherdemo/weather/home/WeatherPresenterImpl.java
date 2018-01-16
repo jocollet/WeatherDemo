@@ -33,6 +33,10 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
      */
     @Override
     public void start() {
+        getCities();
+    }
+
+    private void getCities() {
         mDataSource.getCities(new WeatherCallback<List<WeatherCity>>() {
             @Override
             public void onResponse(List<WeatherCity> cities, boolean success) {
@@ -56,16 +60,10 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
 
     @Override
     public void addCity(String cityName) {
-        mDataSource.addCity(cityName, new WeatherCallback<List<WeatherCity>>() {
+        mDataSource.addCity(cityName, new WeatherCallback<WeatherCity>() {
             @Override
-            public void onResponse(List<WeatherCity> cities, boolean success) {
-                if (mView.isActive()) {
-                    if (success) {
-                        mView.showCities(cities);
-                    } else {
-                        mView.showError();
-                    }
-                }
+            public void onResponse(WeatherCity city, boolean success) {
+                getCities();
             }
 
             @Override
@@ -79,23 +77,26 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
 
     @Override
     public void removeCity(String city) {
-        mDataSource.removeCity(city, new WeatherCallback<List<WeatherCity>>() {
+        mDataSource.removeCity(city, new WeatherCallback<WeatherCity>() {
             @Override
-            public void onResponse(List<WeatherCity> weatherCities, boolean success) {
-                if (mView.isActive()) {
-                    if (success) {
-                        mView.showCities(weatherCities);
-                    } else {
-                        mView.showError();
-                    }
-                }
+            public void onResponse(WeatherCity removedCity, boolean success) {
+                getCities();
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                if (mView.isActive()) {
+                    mView.showError();
+                }
             }
         });
+    }
+
+    @Override
+    public void onCityClick(WeatherCity weatherCity) {
+        if (mView.isActive()) {
+            mView.showCityDetail(weatherCity);
+        }
     }
 
 }

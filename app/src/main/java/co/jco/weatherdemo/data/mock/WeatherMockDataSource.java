@@ -2,7 +2,6 @@ package co.jco.weatherdemo.data.mock;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -41,7 +40,7 @@ public class WeatherMockDataSource implements WeatherDataSource {
     }
 
     @Override
-    public void addCity(String cityName, WeatherCallback<List<WeatherCity>> callback) {
+    public void addCity(String cityName, WeatherCallback<WeatherCity> callback) {
         // Generate a random number between 0 and 20
         int roll = mRandom.nextInt(20);
 
@@ -49,11 +48,15 @@ public class WeatherMockDataSource implements WeatherDataSource {
         if (mCanReturnErrors && roll < 2) {
             callback.onFailure(new Throwable());
         } else if (mCanReturnErrors && roll >= 2 && roll < 4) {
-            callback.onResponse(Collections.<WeatherCity>emptyList(), false);
+            callback.onResponse(null, false);
         } else {
-            mCities.add(generateRandomWeather(cityName));
-            callback.onResponse(mCities, true);
+            callback.onResponse(generateRandomWeather(cityName), true);
         }
+    }
+
+    @Override
+    public void saveCity(WeatherCity city, WeatherCallback<WeatherCity> callback) {
+        mCities.add(city);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class WeatherMockDataSource implements WeatherDataSource {
     }
 
     @Override
-    public void removeCity(String cityName, WeatherCallback<List<WeatherCity>> callback) {
+    public void removeCity(String cityName, WeatherCallback<WeatherCity> callback) {
         WeatherCity cityToRemove = null;
         for (WeatherCity city : mCities) {
             if (city.getCityName().equals(cityName)) {
@@ -70,7 +73,7 @@ public class WeatherMockDataSource implements WeatherDataSource {
             }
         }
         mCities.remove(cityToRemove);
-        callback.onResponse(mCities, true);
+        callback.onResponse(cityToRemove, true);
     }
 
     private WeatherCity generateRandomWeather(String cityName) {

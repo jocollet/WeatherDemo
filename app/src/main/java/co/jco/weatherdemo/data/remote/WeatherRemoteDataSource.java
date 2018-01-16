@@ -1,20 +1,20 @@
 package co.jco.weatherdemo.data.remote;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import co.jco.weatherdemo.data.WeatherCallback;
 import co.jco.weatherdemo.data.WeatherCity;
+import co.jco.weatherdemo.data.WeatherCityMapperKt;
 import co.jco.weatherdemo.data.WeatherDataSource;
 import co.jco.weatherdemo.data.WeatherForecast;
-import co.jco.weatherdemo.data.remote.beans.Weather;
 import co.jco.weatherdemo.data.remote.beans.WeatherResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * WeatherDataSource remote implementation, it uses OpenWeatherMap endpoints via Retrofit
@@ -42,25 +42,17 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
     }
 
     @Override
-    public void addCity(String city, final WeatherCallback<List<WeatherCity>> callback) {
+    public void addCity(String city, final WeatherCallback<WeatherCity> callback) {
         mWeatherService.get(API_KEY, city, "metric").enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 // TODO this response comes back to repository and is stored into local datasource
                 // TODO repository needs to implement a caching/ force refresh strategy
 
-                WeatherResponse body = response.body();
+                WeatherResponse weatherResponse = response.body();
 
-                if (response.isSuccessful() && body != null) {
-                    WeatherCity weatherCity = new WeatherCity();
-                    weatherCity.setCityName(body.getName());
-                    Weather firstWeather = body.getWeather().get(0);
-                    weatherCity.setDescription(firstWeather.getDescription());
-                    weatherCity.setWeatherCode(firstWeather.getId());
-                    weatherCity.setTemperature(body.getMain().getTemp());
-                    ArrayList<WeatherCity> list = new ArrayList<>();
-                    list.add(weatherCity);
-                    callback.onResponse(list, response.isSuccessful());
+                if (response.isSuccessful() && weatherResponse != null) {
+                    callback.onResponse(WeatherCityMapperKt.mapToWeatherCity(weatherResponse), response.isSuccessful());
                 } else {
                     callback.onFailure(null);
                 }
@@ -74,12 +66,17 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
     }
 
     @Override
+    public void saveCity(WeatherCity city, WeatherCallback<WeatherCity> callback) {
+        throw new UnsupportedOperationException("Call local datasource instead !");
+    }
+
+    @Override
     public void getForecast(String city, WeatherCallback<WeatherForecast> callback) {
         throw new UnsupportedOperationException("Implement me !");
     }
 
     @Override
-    public void removeCity(String city, WeatherCallback<List<WeatherCity>> callback) {
+    public void removeCity(String city, WeatherCallback<WeatherCity> callback) {
         throw new UnsupportedOperationException("Call local datasource instead !");
     }
 

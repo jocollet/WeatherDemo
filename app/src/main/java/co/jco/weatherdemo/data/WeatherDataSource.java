@@ -11,9 +11,11 @@ public interface WeatherDataSource {
 
     void getCities(WeatherCallback<List<WeatherCity>> callback);
 
-    void addCity(String city, WeatherCallback<List<WeatherCity>> callback);
+    void addCity(String city, WeatherCallback<WeatherCity> callback);
+
+    void saveCity(WeatherCity city, WeatherCallback<WeatherCity> callback);
+
+    void removeCity(String city, WeatherCallback<WeatherCity> callback);
 
     void getForecast(String city, WeatherCallback<WeatherForecast> callback);
-
-    void removeCity(String city, WeatherCallback<List<WeatherCity>> callback);
 }

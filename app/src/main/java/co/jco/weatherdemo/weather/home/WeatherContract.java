@@ -18,6 +18,8 @@ public interface WeatherContract {
         void showError();
 
         void showCities(List<WeatherCity> cities);
+
+        void showCityDetail(WeatherCity weatherCity);
     }
 
     interface Presenter extends BasePresenter {
@@ -25,5 +27,7 @@ public interface WeatherContract {
         void addCity(String city);
 
         void removeCity(String city);
+
+        void onCityClick(WeatherCity weatherCity);
     }
 }

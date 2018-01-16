@@ -7,6 +7,9 @@
     android:background="@drawable/background_weather"
     tools:context="co.jco.weatherdemo.weather.home.WeatherActivity">
 
-    <include layout="@layout/content_weather" />
+    <FrameLayout
+        android:id="@+id/fl_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </android.support.design.widget.CoordinatorLayout>
