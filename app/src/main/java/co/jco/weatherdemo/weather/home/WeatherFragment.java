@@ -1,9 +1,9 @@
 package co.jco.weatherdemo.weather.home;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +23,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import co.jco.weatherdemo.R;
-import co.jco.weatherdemo.data.WeatherApi;
 import co.jco.weatherdemo.data.WeatherCity;
 import co.jco.weatherdemo.weather.detail.WeatherDetailFragment;
 import dagger.android.support.DaggerFragment;
@@ -52,11 +51,16 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPresenter.setView(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_weather, container, false);
 
-        mPresenter.setView(this);
         setHasOptionsMenu(true);
 
         mFab = view.findViewById(R.id.fab);

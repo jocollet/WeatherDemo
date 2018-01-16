@@ -14,8 +14,7 @@ import static co.jco.weatherdemo.UtilsKt.replaceFragment;
  */
 public class WeatherActivity extends DaggerAppCompatActivity {
 
-    @Inject
-    WeatherFragment mWeatherFragment;
+    WeatherFragment mWeatherFragment = WeatherFragment.newInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

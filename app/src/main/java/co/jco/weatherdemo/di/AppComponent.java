@@ -13,7 +13,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         AndroidInjectionModule.class,
-        AppModule.class})
+        AppModule.class,
+        AndroidBuilder.class})
 public interface AppComponent extends AndroidInjector<WeatherApplication> {
     @Component.Builder
     abstract class Builder extends AndroidInjector.Builder<WeatherApplication> {
