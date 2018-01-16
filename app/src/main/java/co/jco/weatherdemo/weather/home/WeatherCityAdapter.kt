@@ -13,7 +13,7 @@ import co.jco.weatherdemo.data.WeatherCity
 /**
  * Cities adapter, receives a list of cities and notifies the attached RecyclerView
  */
-class WeatherCityAdapter(val listener : (WeatherCity) -> Unit) : RecyclerView.Adapter<WeatherCityViewHolder>() {
+class WeatherCityAdapter(private val listener : (WeatherCity) -> Unit) : RecyclerView.Adapter<WeatherCityViewHolder>() {
 
     private val mCities = ArrayList<WeatherCity>()
 

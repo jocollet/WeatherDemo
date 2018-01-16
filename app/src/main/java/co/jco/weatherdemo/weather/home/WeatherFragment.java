@@ -179,7 +179,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     @Override
     public void showCityDetail(WeatherCity weatherCity) {
-        replaceFragment((AppCompatActivity) getActivity(), WeatherDetailFragment.newInstance(weatherCity.getCityName()), R.id.fl_fragment_container);
+        replaceFragment((AppCompatActivity) getActivity(), WeatherDetailFragment.Factory.newInstance(weatherCity.getCityName()), R.id.fl_fragment_container);
     }
 
 }
