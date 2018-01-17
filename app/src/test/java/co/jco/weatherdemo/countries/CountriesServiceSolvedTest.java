@@ -24,7 +24,7 @@ public class CountriesServiceSolvedTest {
     private List<Country> allCountries;
 
     @Rule
-    public Timeout globalTimeout = Timeout.seconds(2);
+    public Timeout globalTimeout = Timeout.seconds(2); // enforce a 2 seconds timeout for each test
 
     @Before
     public void setUp() {
@@ -171,7 +171,7 @@ public class CountriesServiceSolvedTest {
 
     @Test
     public void testSumPopulationOfCountries() {
-        // hint: use "reduce" operator
+        // hint: use "reduce" operator to sum
         TestObserver<Long> testObserver = countriesService
                 .sumPopulationOfCountries(allCountries)
                 .test();

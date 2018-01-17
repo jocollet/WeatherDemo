@@ -1,11 +1,10 @@
 package co.jco.weatherdemo.countries
 
-import java.util.concurrent.FutureTask
-import java.util.concurrent.TimeUnit
-
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.FutureTask
+import java.util.concurrent.TimeUnit
 
 internal class CountriesServiceImpl : CountriesService {
 
@@ -39,19 +38,19 @@ internal class CountriesServiceImpl : CountriesService {
     override fun isAllCountriesPopulationMoreThanOneMillion(countries: List<Country>): Single<Boolean> {
         return Observable
                 .fromIterable(countries)
-                .all(countryHasMoreThan1MillionPopulation())
+                .all { it.hasMoreThanOneMillionInhabitants() }
     }
 
     override fun listPopulationMoreThanOneMillion(countries: List<Country>): Observable<Country> {
         return Observable
                 .fromIterable(countries)
-                .filter(countryHasMoreThan1MillionPopulation())
+                .filter { it.hasMoreThanOneMillionInhabitants() }
     }
 
     override fun listPopulationMoreThanOneMillionWithTimeoutFallbackToEmpty(countriesFromNetwork: FutureTask<List<Country>>): Observable<Country> {
         return Observable.fromFuture(countriesFromNetwork, Schedulers.io())
                 .flatMapIterable{ country -> country }
-                .filter(countryHasMoreThan1MillionPopulation())
+                .filter { it.hasMoreThanOneMillionInhabitants() }
                 .timeout(1, TimeUnit.SECONDS, Observable.empty<Country>())
     }
 
@@ -92,6 +91,8 @@ internal class CountriesServiceImpl : CountriesService {
         return Observable.sequenceEqual(countryObservable1, countryObservable2)
     }
 
-    private fun countryHasMoreThan1MillionPopulation() = { country: Country -> country.population > 1_000_000 }
+    private fun Country.hasMoreThanOneMillionInhabitants(): Boolean {
+        return population > 1_000_000
+    }
 
 }
