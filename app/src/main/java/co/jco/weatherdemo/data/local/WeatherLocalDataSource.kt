@@ -1,7 +1,6 @@
 package co.jco.weatherdemo.data.local
 
 import co.jco.weatherdemo.data.*
-
 import co.jco.weatherdemo.data.local.beans.RealmWeatherCity
 import io.realm.Realm
 

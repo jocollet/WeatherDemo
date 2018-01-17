@@ -3,9 +3,8 @@ package co.jco.weatherdemo.data;
 
 import java.util.List;
 
-import co.jco.weatherdemo.data.local.WeatherLocalDataSource;
-import co.jco.weatherdemo.data.mock.WeatherMockDataSource;
-import co.jco.weatherdemo.data.remote.WeatherRemoteDataSource;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Unique access to the DataSources, it orchestrates all calls and implements caching policy and
@@ -14,9 +13,9 @@ import co.jco.weatherdemo.data.remote.WeatherRemoteDataSource;
  */
 public class WeatherRepository implements WeatherDataSource {
 
-    private final WeatherLocalDataSource mLocalDataSource;
-    private final WeatherRemoteDataSource mRemoteDataSource;
-    private final WeatherMockDataSource mFakeDataSource;
+    private WeatherDataSource mLocalDataSource;
+    private WeatherDataSource mRemoteDataSource;
+    private WeatherDataSource mFakeDataSource;
 
     private boolean withRemote = false;
 
@@ -28,13 +27,16 @@ public class WeatherRepository implements WeatherDataSource {
         this.withRemote = remoteEnabled;
     }
 
-    /**
+     /**
      * Instanciates a new #WeatherRepository, you should only have one instance
      */
-    public WeatherRepository() {
-        mLocalDataSource = new WeatherLocalDataSource();
-        mRemoteDataSource = new WeatherRemoteDataSource();
-        mFakeDataSource = new WeatherMockDataSource(true);
+    @Inject
+    public WeatherRepository(@Named("localDataSource") WeatherDataSource localDataSource,
+                             @Named("remoteDataSource") WeatherDataSource remoteDataSource,
+                             @Named("fakeDataSource") WeatherDataSource fakeDataSource) {
+        mLocalDataSource = localDataSource;
+        mRemoteDataSource = remoteDataSource;
+        mFakeDataSource = fakeDataSource;
     }
 
     @Override
