@@ -16,7 +16,6 @@ import dagger.android.support.AndroidSupportInjectionModule;
         AppModule.class,
         AndroidBuilder.class})
 public interface AppComponent extends AndroidInjector<WeatherApplication> {
-    @Component.Builder
-    abstract class Builder extends AndroidInjector.Builder<WeatherApplication> {
-    }
+
+    void inject(WeatherApplication application);
 }

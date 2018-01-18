@@ -12,21 +12,30 @@ import co.jco.weatherdemo.data.WeatherRepository;
 import co.jco.weatherdemo.data.local.WeatherLocalDataSource;
 import co.jco.weatherdemo.data.mock.WeatherMockDataSource;
 import co.jco.weatherdemo.data.remote.WeatherRemoteDataSource;
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import io.realm.RealmConfiguration;
 
 @Module
-public abstract class AppModule {
+public  class AppModule {
+
+    private final Application application;
+
+    public AppModule(Application app) {
+        application = app;
+    }
 
     @Provides
     @Singleton
-    static Context provideContext(Application application) {
+    @Named("ApplicationContext")
+    Context provideContext() {
         return application;
     }
 
     @Provides
     @Singleton
-    static WeatherRepository provideWeatherRepository(@Named("localDataSource")WeatherDataSource localDataSource,
+    WeatherRepository provideWeatherRepository(@Named("localDataSource")WeatherDataSource localDataSource,
                                                       @Named("remoteDataSource")WeatherDataSource remoteDataSource,
                                                       @Named("fakeDataSource")WeatherDataSource fakeDataSource) {
         return new WeatherRepository(localDataSource, remoteDataSource, fakeDataSource);
@@ -35,21 +44,21 @@ public abstract class AppModule {
     @Provides
     @Singleton
     @Named("localDataSource")
-    static WeatherDataSource provideLocalDataSource() {
-        return new WeatherLocalDataSource();
+    WeatherDataSource provideLocalDataSource(@Named("ApplicationContext") Context context) {
+        return new WeatherLocalDataSource(context);
     }
 
     @Provides
     @Singleton
     @Named("remoteDataSource")
-    static WeatherDataSource provideRemoteDataSource() {
+    WeatherDataSource provideRemoteDataSource() {
         return new WeatherRemoteDataSource();
     }
 
     @Provides
     @Singleton
     @Named("fakeDataSource")
-    static WeatherDataSource provideFakeDataSource() {
+    WeatherDataSource provideFakeDataSource() {
         return new WeatherMockDataSource(true);
     }
 
