@@ -2,8 +2,6 @@ package co.jco.weatherdemo.weather.home;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import co.jco.weatherdemo.data.WeatherApi;
 import co.jco.weatherdemo.data.WeatherCallback;
 import co.jco.weatherdemo.data.WeatherCity;
@@ -23,8 +21,8 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
      */
     private WeatherDataSource mDataSource;
 
-    @Inject
-    public WeatherPresenterImpl(WeatherApi weatherApi) {
+    //TODO WS4 3 Inject WeatherApi into WeatherPresenterImpl​
+    WeatherPresenterImpl(WeatherApi weatherApi) {
         mDataSource = weatherApi.getDataSource();
     }
 

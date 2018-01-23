@@ -3,7 +3,8 @@ package co.jco.weatherdemo
 import co.jco.weatherdemo.JavaStringUtils.returnStringNonNull
 import co.jco.weatherdemo.JavaStringUtils.returnStringNullable
 import co.jco.weatherdemo.Workshop3.User
-import junit.framework.Assert.*
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
 import org.junit.Assert
 import org.junit.Test
 import java.util.*
@@ -133,26 +134,26 @@ class Workshop3 {
     }
 }
 
-    // endregion annotations
+// endregion annotations
 
 
-    // region receiver
+// region receiver
 
-    /**
-     * listener
-     */
-    fun registerUserListener(listener : (User) -> Unit) {
-            listener(User("Peter", "Paul", "Jack", 77))
-        }
+/**
+ * listener
+ */
+fun registerUserListener(listener: (User) -> Unit) {
+    listener(User("Peter", "Paul", "Jack", 77))
+}
 
-    @Test
-    fun testReceiver() {
-            val listener : (User) -> Unit = fun (user : User) : Unit = println(user.age)
-            registerUserListener(listener)
-            registerUserListener { user -> println(user.age) }
-        }
+@Test
+fun testReceiver() {
+    val listener: (User) -> Unit = fun(user: User): Unit = println(user.age)
+    registerUserListener(listener)
+    registerUserListener { user -> println(user.age) }
+}
 
-    // endregion receiver
+// endregion receiver
 
 /**
  * Evil things can be done with typealias

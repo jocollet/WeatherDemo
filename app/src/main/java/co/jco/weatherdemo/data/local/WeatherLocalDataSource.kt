@@ -10,12 +10,7 @@ import io.realm.RealmConfiguration
  * Local WeatherDataSource, facade to Realm database
  * Unused at the moment
  */
-class WeatherLocalDataSource(applicationContext: Context) : WeatherDataSource {
-
-    init {
-        Realm.init(applicationContext)
-        Realm.setDefaultConfiguration(RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build())
-    }
+class WeatherLocalDataSource() : WeatherDataSource {
 
     override fun getCities(callback: WeatherCallback<List<WeatherCity>>) {
         val realm = Realm.getDefaultInstance()

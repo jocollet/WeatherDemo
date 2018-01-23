@@ -1,14 +1,8 @@
 package co.jco.weatherdemo.weather.home;
 
 import dagger.Module;
-import dagger.Provides;
 
 @Module
 public abstract class WeatherActivityModule {
-
-//    @Provides
-//    static WeatherFragment provideWeatherFragment() {
-//        return WeatherFragment.newInstance();
-//    }
-
+    //TODO WS4 4 Inject WeatherFragment into WeatherActivity
 }

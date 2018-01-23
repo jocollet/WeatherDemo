@@ -7,11 +7,15 @@ import javax.inject.Inject;
  * Weather Api Singleton, providing data
  */
 public final class WeatherApi {
+    private static WeatherApi sInstance = new WeatherApi();
     private WeatherRepository mRepository;
 
-    @Inject
-    public WeatherApi(WeatherRepository repository) {
-        mRepository = repository;
+    public static WeatherApi getInstance() {
+        return sInstance;
+    }
+
+    private WeatherApi() {
+        mRepository = new WeatherRepository();
     }
 
     public WeatherDataSource getDataSource() {

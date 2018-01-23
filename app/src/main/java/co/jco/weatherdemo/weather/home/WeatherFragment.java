@@ -23,7 +23,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import co.jco.weatherdemo.R;
+import co.jco.weatherdemo.data.WeatherApi;
 import co.jco.weatherdemo.data.WeatherCity;
+import co.jco.weatherdemo.data.WeatherRepository;
 import co.jco.weatherdemo.weather.detail.WeatherDetailFragment;
 import dagger.android.support.DaggerFragment;
 import kotlin.Unit;
@@ -39,7 +41,6 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
     private RecyclerView mCityList;
     private LinearLayoutManager mLayoutManager;
     private WeatherCityAdapter mCityAdapter;
-    @Inject
     protected WeatherContract.Presenter mPresenter;
     private FloatingActionButton mFab;
     private ItemTouchHelper mItemTouchHelper;
@@ -53,6 +54,7 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new WeatherPresenterImpl(WeatherApi.getInstance());
         mPresenter.setView(this);
     }
 

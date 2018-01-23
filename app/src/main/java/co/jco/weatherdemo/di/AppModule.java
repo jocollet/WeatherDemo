@@ -33,33 +33,6 @@ public  class AppModule {
         return application;
     }
 
-    @Provides
-    @Singleton
-    WeatherRepository provideWeatherRepository(@Named("localDataSource")WeatherDataSource localDataSource,
-                                                      @Named("remoteDataSource")WeatherDataSource remoteDataSource,
-                                                      @Named("fakeDataSource")WeatherDataSource fakeDataSource) {
-        return new WeatherRepository(localDataSource, remoteDataSource, fakeDataSource);
-    }
-
-    @Provides
-    @Singleton
-    @Named("localDataSource")
-    WeatherDataSource provideLocalDataSource(@Named("ApplicationContext") Context context) {
-        return new WeatherLocalDataSource(context);
-    }
-
-    @Provides
-    @Singleton
-    @Named("remoteDataSource")
-    WeatherDataSource provideRemoteDataSource() {
-        return new WeatherRemoteDataSource();
-    }
-
-    @Provides
-    @Singleton
-    @Named("fakeDataSource")
-    WeatherDataSource provideFakeDataSource() {
-        return new WeatherMockDataSource(true);
-    }
+    //TODO WS4 6 Inject data sources into WeatherRepository (@Named)
 
 }

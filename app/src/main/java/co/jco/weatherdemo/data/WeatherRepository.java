@@ -6,6 +6,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import co.jco.weatherdemo.data.local.WeatherLocalDataSource;
+import co.jco.weatherdemo.data.mock.WeatherMockDataSource;
+import co.jco.weatherdemo.data.remote.WeatherRemoteDataSource;
+
 /**
  * Unique access to the DataSources, it orchestrates all calls and implements caching policy and
  * refreshes data if needed.
@@ -30,13 +34,11 @@ public class WeatherRepository implements WeatherDataSource {
      /**
      * Instanciates a new #WeatherRepository, you should only have one instance
      */
-    @Inject
-    public WeatherRepository(@Named("localDataSource") WeatherDataSource localDataSource,
-                             @Named("remoteDataSource") WeatherDataSource remoteDataSource,
-                             @Named("fakeDataSource") WeatherDataSource fakeDataSource) {
-        mLocalDataSource = localDataSource;
-        mRemoteDataSource = remoteDataSource;
-        mFakeDataSource = fakeDataSource;
+    //TODO WS4 6 Inject all 3 data sources into WeatherRepository (use @Named)
+    WeatherRepository() {
+        mLocalDataSource = new WeatherLocalDataSource();
+        mRemoteDataSource = new WeatherRemoteDataSource();
+        mFakeDataSource = new WeatherMockDataSource(true);
     }
 
     @Override
