@@ -31,14 +31,16 @@ public class WeatherRepository implements WeatherDataSource {
         this.withRemote = remoteEnabled;
     }
 
-     /**
+    /**
      * Instanciates a new #WeatherRepository, you should only have one instance
      */
-    //TODO WS4 6 Inject all 3 data sources into WeatherRepository (use @Named)
-    WeatherRepository() {
-        mLocalDataSource = new WeatherLocalDataSource();
-        mRemoteDataSource = new WeatherRemoteDataSource();
-        mFakeDataSource = new WeatherMockDataSource(true);
+    @Inject
+    WeatherRepository( @Named("localWeather") WeatherDataSource localDataSource,
+                       @Named("remoteWeather") WeatherDataSource remoteDataSource,
+                       @Named("fakeWeather") WeatherDataSource fakeDataSource) {
+        mLocalDataSource = localDataSource;
+        mRemoteDataSource = remoteDataSource;
+        mFakeDataSource = fakeDataSource;
     }
 
     @Override

@@ -27,6 +27,7 @@ import co.jco.weatherdemo.data.WeatherApi;
 import co.jco.weatherdemo.data.WeatherCity;
 import co.jco.weatherdemo.data.WeatherRepository;
 import co.jco.weatherdemo.weather.detail.WeatherDetailFragment;
+import dagger.Lazy;
 import dagger.android.support.DaggerFragment;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -41,7 +42,13 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
     private RecyclerView mCityList;
     private LinearLayoutManager mLayoutManager;
     private WeatherCityAdapter mCityAdapter;
-    protected WeatherContract.Presenter mPresenter;
+
+    /**
+     * see https://google.github.io/dagger/api/2.0/dagger/Lazy.html
+     */
+    @Inject
+    Lazy<WeatherContract.Presenter> mPresenter;
+
     private FloatingActionButton mFab;
     private ItemTouchHelper mItemTouchHelper;
     private MenuItem mMenuSearchItem;
@@ -54,8 +61,7 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new WeatherPresenterImpl(WeatherApi.getInstance());
-        mPresenter.setView(this);
+        mPresenter.get().setView(this);
     }
 
     @Override
@@ -79,7 +85,7 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        mPresenter.get().start();
     }
 
     @Override
@@ -100,7 +106,7 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     if (!TextUtils.isEmpty(query)) {
-                        mPresenter.addCity(query);
+                        mPresenter.get().addCity(query);
                         mSearchView.clearFocus();
                     }
                     return true;
@@ -120,7 +126,7 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
         mCityAdapter = new WeatherCityAdapter(new Function1<WeatherCity, Unit>() {
             @Override
             public Unit invoke(WeatherCity weatherCity) {
-                mPresenter.onCityClick(weatherCity);
+                mPresenter.get().onCityClick(weatherCity);
                 return null;
             }
         });
@@ -138,7 +144,7 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                         // remove swiped item from the list
-                        mPresenter.removeCity(((WeatherCityViewHolder) viewHolder).getMCityName().getText().toString());
+                        mPresenter.get().removeCity(((WeatherCityViewHolder) viewHolder).getMCityName().getText().toString());
                     }
                 });
 
@@ -150,14 +156,14 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.addCity(null);
+                mPresenter.get().addCity(null);
             }
         });
     }
 
     @Override
     public void setPresenter(WeatherContract.Presenter presenter) {
-        mPresenter = presenter;
+        //TODO It's empty now since we inject it. We need to clean the BaseView.
     }
 
     @Override
