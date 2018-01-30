@@ -24,6 +24,8 @@ public interface WeatherContract {
 
     interface Presenter extends BasePresenter {
 
+        void setView(WeatherContract.View view);
+
         void addCity(String city);
 
         void removeCity(String city);

@@ -1,24 +1,17 @@
 package co.jco.weatherdemo.data;
 
 
+import javax.inject.Inject;
+
 /**
  * Weather Api Singleton, providing data
  */
 public final class WeatherApi {
-
-    private static final WeatherApi sInstance = new WeatherApi();
-
     private WeatherRepository mRepository;
 
-    public static WeatherApi getInstance() {
-        return sInstance;
-    }
-
-    /**
-     * Hide default constructor, clients must use #getInstance()
-     */
-    private WeatherApi() {
-        mRepository = new WeatherRepository();
+    @Inject
+    WeatherApi(WeatherRepository repository) {
+        mRepository = repository;
     }
 
     public WeatherDataSource getDataSource() {

@@ -1,9 +1,9 @@
 package co.jco.weatherdemo.weather.home;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,9 +20,15 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import co.jco.weatherdemo.R;
+import co.jco.weatherdemo.data.WeatherApi;
 import co.jco.weatherdemo.data.WeatherCity;
+import co.jco.weatherdemo.data.WeatherRepository;
 import co.jco.weatherdemo.weather.detail.WeatherDetailFragment;
+import dagger.Lazy;
+import dagger.android.support.DaggerFragment;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -31,12 +37,18 @@ import static co.jco.weatherdemo.UtilsKt.replaceFragment;
 /**
  * Fragment displaying a list of cities, with their respective weather
  */
-public class WeatherFragment extends Fragment implements WeatherContract.View {
+public class WeatherFragment extends DaggerFragment implements WeatherContract.View {
 
     private RecyclerView mCityList;
     private LinearLayoutManager mLayoutManager;
     private WeatherCityAdapter mCityAdapter;
-    private WeatherContract.Presenter mPresenter;
+
+    /**
+     * see https://google.github.io/dagger/api/2.0/dagger/Lazy.html
+     */
+    @Inject
+    Lazy<WeatherContract.Presenter> mPresenter;
+
     private FloatingActionButton mFab;
     private ItemTouchHelper mItemTouchHelper;
     private MenuItem mMenuSearchItem;
@@ -47,13 +59,17 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPresenter.get().setView(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_weather, container, false);
 
         setHasOptionsMenu(true);
-
-        mPresenter = new WeatherPresenterImpl(this);
 
         mFab = view.findViewById(R.id.fab);
         mCityList = view.findViewById(R.id.rv_weather_city_list);
@@ -69,7 +85,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        mPresenter.get().start();
     }
 
     @Override
@@ -90,7 +106,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     if (!TextUtils.isEmpty(query)) {
-                        mPresenter.addCity(query);
+                        mPresenter.get().addCity(query);
                         mSearchView.clearFocus();
                     }
                     return true;
@@ -110,7 +126,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         mCityAdapter = new WeatherCityAdapter(new Function1<WeatherCity, Unit>() {
             @Override
             public Unit invoke(WeatherCity weatherCity) {
-                mPresenter.onCityClick(weatherCity);
+                mPresenter.get().onCityClick(weatherCity);
                 return null;
             }
         });
@@ -128,7 +144,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                         // remove swiped item from the list
-                        mPresenter.removeCity(((WeatherCityViewHolder) viewHolder).getMCityName().getText().toString());
+                        mPresenter.get().removeCity(((WeatherCityViewHolder) viewHolder).getMCityName().getText().toString());
                     }
                 });
 
@@ -140,14 +156,14 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.addCity(null);
+                mPresenter.get().addCity(null);
             }
         });
     }
 
     @Override
     public void setPresenter(WeatherContract.Presenter presenter) {
-        mPresenter = presenter;
+        //TODO It's empty now since we inject it. We need to clean the BaseView.
     }
 
     @Override

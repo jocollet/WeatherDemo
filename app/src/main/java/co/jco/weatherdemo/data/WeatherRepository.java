@@ -3,6 +3,9 @@ package co.jco.weatherdemo.data;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import co.jco.weatherdemo.data.local.WeatherLocalDataSource;
 import co.jco.weatherdemo.data.mock.WeatherMockDataSource;
 import co.jco.weatherdemo.data.remote.WeatherRemoteDataSource;
@@ -14,9 +17,9 @@ import co.jco.weatherdemo.data.remote.WeatherRemoteDataSource;
  */
 public class WeatherRepository implements WeatherDataSource {
 
-    private final WeatherLocalDataSource mLocalDataSource;
-    private final WeatherRemoteDataSource mRemoteDataSource;
-    private final WeatherMockDataSource mFakeDataSource;
+    private WeatherDataSource mLocalDataSource;
+    private WeatherDataSource mRemoteDataSource;
+    private WeatherDataSource mFakeDataSource;
 
     private boolean withRemote = false;
 
@@ -31,10 +34,13 @@ public class WeatherRepository implements WeatherDataSource {
     /**
      * Instanciates a new #WeatherRepository, you should only have one instance
      */
-    public WeatherRepository() {
-        mLocalDataSource = new WeatherLocalDataSource();
-        mRemoteDataSource = new WeatherRemoteDataSource();
-        mFakeDataSource = new WeatherMockDataSource(true);
+    @Inject
+    WeatherRepository( @Named("localWeather") WeatherDataSource localDataSource,
+                       @Named("remoteWeather") WeatherDataSource remoteDataSource,
+                       @Named("fakeWeather") WeatherDataSource fakeDataSource) {
+        mLocalDataSource = localDataSource;
+        mRemoteDataSource = remoteDataSource;
+        mFakeDataSource = fakeDataSource;
     }
 
     @Override

@@ -1,15 +1,17 @@
 package co.jco.weatherdemo.data.local
 
+import android.content.Context
 import co.jco.weatherdemo.data.*
-
 import co.jco.weatherdemo.data.local.beans.RealmWeatherCity
 import io.realm.Realm
+import io.realm.RealmConfiguration
 
 /**
  * Local WeatherDataSource, facade to Realm database
  * Unused at the moment
  */
-class WeatherLocalDataSource : WeatherDataSource {
+class WeatherLocalDataSource() : WeatherDataSource {
+
     override fun getCities(callback: WeatherCallback<List<WeatherCity>>) {
         val realm = Realm.getDefaultInstance()
         val cities = realm.where(RealmWeatherCity::class.java).findAllSorted(RealmWeatherCity.CITY_NAME).map { it.fromRealmExt() }

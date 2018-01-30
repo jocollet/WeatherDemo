@@ -3,6 +3,8 @@ package co.jco.weatherdemo.data.remote;
 
 import java.util.List;
 
+import javax.inject.Named;
+
 import co.jco.weatherdemo.data.WeatherCallback;
 import co.jco.weatherdemo.data.WeatherCity;
 import co.jco.weatherdemo.data.WeatherCityMapperKt;
@@ -18,7 +20,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * WeatherDataSource remote implementation, it uses OpenWeatherMap endpoints via Retrofit
- * TODO : Add a valid api key
  */
 public class WeatherRemoteDataSource implements WeatherDataSource {
 

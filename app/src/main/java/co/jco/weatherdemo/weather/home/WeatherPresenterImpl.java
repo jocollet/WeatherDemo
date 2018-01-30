@@ -2,6 +2,8 @@ package co.jco.weatherdemo.weather.home;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import co.jco.weatherdemo.data.WeatherApi;
 import co.jco.weatherdemo.data.WeatherCallback;
 import co.jco.weatherdemo.data.WeatherCity;
@@ -21,10 +23,14 @@ public class WeatherPresenterImpl implements WeatherContract.Presenter {
      */
     private WeatherDataSource mDataSource;
 
-    public WeatherPresenterImpl(WeatherContract.View view) {
+    @Inject
+    WeatherPresenterImpl(WeatherApi weatherApi) {
+        mDataSource = weatherApi.getDataSource();
+    }
+
+    @Override
+    public void setView(WeatherContract.View view) {
         mView = view;
-        mDataSource = WeatherApi.getInstance().getDataSource();
-        mView.setPresenter(this);
     }
 
     /**
