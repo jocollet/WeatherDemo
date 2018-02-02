@@ -39,6 +39,7 @@ public class CountriesServiceSolvedTest {
         TestObserver<String> testObserver = countriesService
                 .countryNameInCapitals(testCountry)
                 .test();
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
         testObserver.assertValue(expected);
     }
@@ -49,6 +50,7 @@ public class CountriesServiceSolvedTest {
         TestObserver<Integer> testObserver = countriesService
                 .countCountries(allCountries)
                 .test();
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
         testObserver.assertValue(expected);
     }
@@ -59,8 +61,9 @@ public class CountriesServiceSolvedTest {
         TestObserver<Long> testObserver = countriesService
                 .listPopulationOfEachCountry(allCountries)
                 .test();
-        testObserver.assertValueSet(expectedResult);
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertValueSet(expectedResult);
     }
 
     @Test
@@ -69,8 +72,9 @@ public class CountriesServiceSolvedTest {
         TestObserver<String> testObserver = countriesService
                 .listNameOfEachCountry(allCountries)
                 .test();
-        testObserver.assertValueSet(expectedResult);
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertValueSet(expectedResult);
     }
 
     @Test
@@ -82,8 +86,9 @@ public class CountriesServiceSolvedTest {
         TestObserver<Country> testObserver = countriesService
                 .listOnly3rdAnd4thCountry(allCountries)
                 .test();
-        testObserver.assertValueSet(expectedResult);
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertValueSet(expectedResult);
     }
 
     @Test
@@ -91,8 +96,9 @@ public class CountriesServiceSolvedTest {
         TestObserver<Boolean> testObserver = countriesService
                 .isAllCountriesPopulationMoreThanOneMillion(CountriesTestProvider.countriesPopulationMoreThanOneMillion())
                 .test();
-        testObserver.assertResult(true);
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertResult(true);
     }
 
     @Test
@@ -100,8 +106,9 @@ public class CountriesServiceSolvedTest {
         TestObserver<Boolean> testObserver = countriesService
                 .isAllCountriesPopulationMoreThanOneMillion(allCountries)
                 .test();
-        testObserver.assertResult(false);
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertResult(false);
     }
 
     @Test
@@ -110,8 +117,9 @@ public class CountriesServiceSolvedTest {
         TestObserver<Country> testObserver = countriesService
                 .listPopulationMoreThanOneMillion(allCountries)
                 .test();
-        testObserver.assertValueSet(expectedResult);
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertValueSet(expectedResult);
     }
 
     @Test
@@ -127,8 +135,8 @@ public class CountriesServiceSolvedTest {
         List<Country> expectedResult = CountriesTestProvider.countriesPopulationMoreThanOneMillion();
         testObserver.awaitTerminalEvent();
         testObserver.assertComplete();
-        testObserver.assertValueSet(expectedResult);
         testObserver.assertNoErrors();
+        testObserver.assertValueSet(expectedResult);
     }
 
     @Test
@@ -154,8 +162,9 @@ public class CountriesServiceSolvedTest {
         TestObserver<String> testObserver = countriesService
                 .getCurrencyUsdIfNotFound(countryRequested, allCountries)
                 .test();
-        testObserver.assertResult(expectedCurrencyValue);
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertResult(expectedCurrencyValue);
     }
 
     @Test
@@ -165,8 +174,9 @@ public class CountriesServiceSolvedTest {
         TestObserver<String> testObserver = countriesService
                 .getCurrencyUsdIfNotFound(countryRequested, allCountries)
                 .test();
-        testObserver.assertResult(expectedCurrencyValue);
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertResult(expectedCurrencyValue);
     }
 
     @Test
@@ -175,8 +185,9 @@ public class CountriesServiceSolvedTest {
         TestObserver<Long> testObserver = countriesService
                 .sumPopulationOfCountries(allCountries)
                 .test();
-        testObserver.assertResult(CountriesTestProvider.sumPopulationOfAllCountries());
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertResult(CountriesTestProvider.sumPopulationOfAllCountries());
     }
 
 
@@ -187,8 +198,9 @@ public class CountriesServiceSolvedTest {
         for (Country country : allCountries) {
             expected.put(country.name, country.population);
         }
-        values.assertResult(expected);
+        values.assertComplete();
         values.assertNoErrors();
+        values.assertResult(expected);
     }
 
     @Test
@@ -197,9 +209,10 @@ public class CountriesServiceSolvedTest {
         TestObserver<Long> testObserver = countriesService
                 .sumPopulationOfCountries(Observable.fromIterable(allCountries), Observable.fromIterable(allCountries))
                 .test();
+        testObserver.assertComplete();
+        testObserver.assertNoErrors();
         testObserver.assertResult(CountriesTestProvider.sumPopulationOfAllCountries()
                 + CountriesTestProvider.sumPopulationOfAllCountries());
-        testObserver.assertNoErrors();
     }
 
     @Test
@@ -208,8 +221,9 @@ public class CountriesServiceSolvedTest {
         TestObserver<Boolean> testObserver = countriesService
                 .areEmittingSameSequences(Observable.fromIterable(allCountries), Observable.fromIterable(allCountries))
                 .test();
-        testObserver.assertResult(true);
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertResult(true);
     }
 
     @Test
@@ -221,8 +235,9 @@ public class CountriesServiceSolvedTest {
                         Observable.fromIterable(allCountries),
                         Observable.fromIterable(allCountriesDifferentSequence))
                 .test();
-        testObserver.assertResult(false);
+        testObserver.assertComplete();
         testObserver.assertNoErrors();
+        testObserver.assertResult(false);
     }
 
 }

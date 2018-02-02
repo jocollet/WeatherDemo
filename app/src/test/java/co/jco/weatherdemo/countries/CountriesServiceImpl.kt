@@ -45,6 +45,7 @@ internal class CountriesServiceImpl : CountriesService {
         return Observable
                 .fromIterable(countries)
                 .filter { it.hasMoreThanOneMillionInhabitants() }
+                .switchIfEmpty { Observable.empty<Country>() }
     }
 
     override fun listPopulationMoreThanOneMillionWithTimeoutFallbackToEmpty(countriesFromNetwork: FutureTask<List<Country>>): Observable<Country> {
