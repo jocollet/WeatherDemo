@@ -1,5 +1,6 @@
 package co.jco.weatherdemo.weather.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -27,6 +28,7 @@ import co.jco.weatherdemo.data.WeatherApi;
 import co.jco.weatherdemo.data.WeatherCity;
 import co.jco.weatherdemo.data.WeatherRepository;
 import co.jco.weatherdemo.weather.detail.WeatherDetailFragment;
+import co.jco.weatherdemo.weather.playground.SearchActivity;
 import dagger.Lazy;
 import dagger.android.support.DaggerFragment;
 import kotlin.Unit;
@@ -156,7 +158,8 @@ public class WeatherFragment extends DaggerFragment implements WeatherContract.V
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.get().addCity(null);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
             }
         });
     }

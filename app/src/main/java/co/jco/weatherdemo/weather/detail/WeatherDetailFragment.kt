@@ -16,19 +16,6 @@ import kotlinx.android.synthetic.main.fragment_weather_detail.*
 class WeatherDetailFragment : Fragment() {
     private var mWeatherCityId: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mWeatherCityId = arguments.getString(WEATHER_CITY_ID)
-        }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_weather_detail, container, false)
-    }
-
     override fun onResume() {
         super.onResume()
         // widget auto bound by kotlin-android-extensions
