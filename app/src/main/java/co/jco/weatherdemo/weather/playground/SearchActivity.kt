@@ -5,16 +5,15 @@ import android.support.v7.app.AppCompatActivity
 import co.jco.weatherdemo.R
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxSearchView
-import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subscribers.DisposableSubscriber
 import kotlinx.android.synthetic.main.activity_search.*
 import java.util.concurrent.TimeUnit
 
-
+/**
+ * An Activity with a SearchView bound with Rx
+ */
 class SearchActivity : AppCompatActivity() {
 
     private val compositeDisposable = CompositeDisposable()
@@ -26,11 +25,10 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        // when a click is performed on buttonTest, then execute subscribeAndPrint() method
+        // when a click is performed on buttonTest, then print click !
         compositeDisposable.add(
                 RxView.clicks(buttonTest)
-                        .subscribe { _ -> subscribeAndPrint() })
-        test()
+                        .subscribe { _ -> println("click !") })
     }
 
 //    If you want to make a network call on click you have to use observeOn twice.
@@ -42,16 +40,25 @@ class SearchActivity : AppCompatActivity() {
 //    .observeOn(AndroidSchedulers.mainThread())
 //    .subscribe(...);
 
+    /**
+     * //TODO WS5
+     * When the user types a query, do :
+     * print the query -> use doOnNext
+     * switch to I/O scheduler -> use observeOn
+     * limit item emission to 500ms minimum -> use debounce
+     * do not emit if the query is the same as the last one emitted -> distinctUntilChanged
+     * filter to block item with less than 3 characters -> filter
+     * perform network call only with last item emitted -> switchMap
+     */
     fun createSearchViewFlowable(): Observable<String> {
         return RxSearchView.queryTextChanges(searchView)
-                .observeOn(Schedulers.io())
-                .debounce(500, TimeUnit.MILLISECONDS)
-                .distinctUntilChanged()
                 .map { cs -> cs.toString() }
-                .filter { s -> s.length >= 3 }
-                .switchMap { query -> networkSearch(query) }
     }
 
+    /**
+     * Simulates a network call
+     * @return an Observable String with a sequence number
+     */
     private fun networkSearch(query: String): Observable<String> {
         return Observable
                 .just(true)
@@ -61,6 +68,9 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        /**
+         * Put the subscription into the disposable to enable future cleanup
+         */
         compositeDisposable.add(
                 createSearchViewFlowable()
                         .observeOn(AndroidSchedulers.mainThread())
@@ -68,43 +78,12 @@ class SearchActivity : AppCompatActivity() {
                         .subscribe { s -> textResult.text = s })
     }
 
-    fun test() {
-        compositeDisposable.add(
-                Observable.just("Hello World")
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        //observation on the main thread
-                        .subscribe({ s -> System.out.println(s) }))
-    }
-
-    fun createSubscriber(): DisposableSubscriber<String> {
-        val subscriber = object : DisposableSubscriber<String>() {
-            override fun onStart() {
-                println("start !")
-            }
-            override fun onComplete() {
-                println("complete !")
-            }
-            override fun onNext(t: String?) {
-                println(t)
-            }
-            override fun onError(t: Throwable?) {
-                println("ERROR :-X")
-            }
-        }
-        compositeDisposable.add(subscriber)
-        return subscriber
-    }
-
-    fun subscribeAndPrint() {
-        Flowable.
-                just("a", "b", "c", "d", "e")
-                .map { s: String -> s.capitalize() }
-                .subscribe(createSubscriber())
-    }
-
     public override fun onDestroy() {
         super.onDestroy()
+        /**
+         * Clean all subscriptions
+         */
         compositeDisposable.dispose()
     }
+
 }

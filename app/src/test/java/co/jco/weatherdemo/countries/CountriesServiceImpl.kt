@@ -2,97 +2,62 @@ package co.jco.weatherdemo.countries
 
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.FutureTask
-import java.util.concurrent.TimeUnit
 
 internal class CountriesServiceImpl : CountriesService {
 
     override fun countryNameInCapitals(country: Country): Single<String> {
-        return Single.just(country.name.toUpperCase())
+        throw NotImplementedError()
     }
 
     override fun countCountries(countries: List<Country>): Single<Int> {
-        return Single.just(countries.size)
+        throw NotImplementedError()
     }
 
     override fun listPopulationOfEachCountry(countries: List<Country>): Observable<Long> {
-        return Observable
-                .fromIterable(countries)
-                .map{it.population}
+        throw NotImplementedError()
     }
 
     override fun listNameOfEachCountry(countries: List<Country>): Observable<String> {
-        return Observable
-                .fromIterable(countries)
-                .map{it.name}
+        throw NotImplementedError()
     }
 
     override fun listOnly3rdAnd4thCountry(countries: List<Country>): Observable<Country> {
-        return Observable
-                .fromIterable(countries)
-                .skip(2)
-                .take(2)
+        throw NotImplementedError()
     }
 
     override fun isAllCountriesPopulationMoreThanOneMillion(countries: List<Country>): Single<Boolean> {
-        return Observable
-                .fromIterable(countries)
-                .all { it.hasMoreThanOneMillionInhabitants() }
+        throw NotImplementedError()
     }
 
     override fun listPopulationMoreThanOneMillion(countries: List<Country>): Observable<Country> {
-        return Observable
-                .fromIterable(countries)
-                .filter { it.hasMoreThanOneMillionInhabitants() }
+        throw NotImplementedError()
     }
 
     override fun listPopulationMoreThanOneMillionWithTimeoutFallbackToEmpty(countriesFromNetwork: FutureTask<List<Country>>): Observable<Country> {
-        return Observable.fromFuture(countriesFromNetwork, Schedulers.io())
-                .flatMapIterable{ country -> country }
-                .filter { it.hasMoreThanOneMillionInhabitants() }
-                .timeout(1, TimeUnit.SECONDS, Observable.empty<Country>())
+        throw NotImplementedError()
     }
 
     override fun getCurrencyUsdIfNotFound(countryName: String, countries: List<Country>): Observable<String> {
-        return Observable
-                .fromIterable(countries)
-                .filter { it.name == countryName }
-                .map{it.currency }
-                .first("USD")
-                .toObservable()
+        throw NotImplementedError()
     }
 
     override fun sumPopulationOfCountries(countries: List<Country>): Observable<Long> {
-        return Observable
-                .fromIterable(countries)
-                .map{ it.population }
-                .reduce { x, sum -> x + sum }
-                .toObservable()
+        throw NotImplementedError()
     }
 
     override fun mapCountriesToNamePopulation(countries: List<Country>): Single<Map<String, Long>> {
-        return Observable
-                .fromIterable(countries)
-                .toMap({it.name}, {it.population})
+        throw NotImplementedError()
     }
 
     override fun sumPopulationOfCountries(countryObservable1: Observable<Country>,
                                           countryObservable2: Observable<Country>): Observable<Long> {
-        return countryObservable1
-                .concatWith(countryObservable2)
-                .map{ it.population }
-                .reduce { x, sum -> x + sum }
-                .toObservable()
+        throw NotImplementedError()
     }
 
     override fun areEmittingSameSequences(countryObservable1: Observable<Country>,
                                           countryObservable2: Observable<Country>): Single<Boolean> {
-        return Observable.sequenceEqual(countryObservable1, countryObservable2)
-    }
-
-    private fun Country.hasMoreThanOneMillionInhabitants(): Boolean {
-        return population > 1_000_000
+        throw NotImplementedError()
     }
 
 }
